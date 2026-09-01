@@ -31,6 +31,7 @@ static const CatacracWord catacrac_words[] = {
 typedef struct {
     size_t word_index;
     uint32_t anim_frame;
+    bool word_revealed;
     ViewPort* view_port;
 } CatacracState;
 
@@ -42,6 +43,7 @@ static void catacrac_draw_callback(Canvas* canvas, void* ctx) {
     canvas_set_color(canvas, ColorBlack);
 
     uint8_t word_y = 30;
+    bool show_word = state->word_revealed || !word->icon;
     if(word->icon) {
         uint32_t frame = state->anim_frame % icon_get_frame_count(word->icon);
         canvas_draw_bitmap(
@@ -54,8 +56,13 @@ static void catacrac_draw_callback(Canvas* canvas, void* ctx) {
         word_y = 54;
     }
 
-    canvas_set_custom_u8g2_font(canvas, u8g2_font_helvB18_tr);
-    canvas_draw_str_aligned(canvas, 64, word_y, AlignCenter, AlignCenter, word->word);
+    if(show_word) {
+        canvas_set_custom_u8g2_font(canvas, u8g2_font_helvB18_tr);
+        canvas_draw_str_aligned(canvas, 64, word_y, AlignCenter, AlignCenter, word->word);
+    } else {
+        canvas_set_font(canvas, FontSecondary);
+        canvas_draw_str_aligned(canvas, 64, word_y, AlignCenter, AlignCenter, "OK?");
+    }
 
     char counter[16];
     snprintf(
@@ -82,7 +89,8 @@ static void catacrac_anim_timer_callback(void* ctx) {
 int32_t catacrac_app(void* p) {
     UNUSED(p);
 
-    CatacracState state = {.word_index = 0, .anim_frame = 0, .view_port = NULL};
+    CatacracState state = {
+        .word_index = 0, .anim_frame = 0, .word_revealed = false, .view_port = NULL};
 
     FuriMessageQueue* input_queue = furi_message_queue_alloc(8, sizeof(InputEvent));
 
@@ -107,16 +115,22 @@ int32_t catacrac_app(void* p) {
                 case InputKeyRight:
                     state.word_index = (state.word_index + 1) % CATACRAC_WORD_COUNT;
                     state.anim_frame = 0;
+                    state.word_revealed = false;
                     view_port_update(view_port);
                     break;
                 case InputKeyLeft:
                     state.word_index =
                         (state.word_index + CATACRAC_WORD_COUNT - 1) % CATACRAC_WORD_COUNT;
                     state.anim_frame = 0;
+                    state.word_revealed = false;
                     view_port_update(view_port);
                     break;
                 case InputKeyOk:
-                    state.anim_frame = 0;
+                    if(catacrac_words[state.word_index].icon && !state.word_revealed) {
+                        state.word_revealed = true;
+                    } else {
+                        state.anim_frame = 0;
+                    }
                     view_port_update(view_port);
                     break;
                 case InputKeyBack:

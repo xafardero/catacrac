@@ -37,3 +37,8 @@ tools/generate_cat_frames.py`, requires Pillow). It's compiled through
 Flipper's standard `fap_icon_assets` icon pipeline, not hand-rolled, and
 loops automatically while GAT is on screen. Other words don't have icons
 yet.
+
+For any word with an animation, the word text stays hidden (an "OK?" hint
+shows instead) until OK is pressed — a small guess-first flashcard flow.
+Pressing OK again just restarts the animation. Words without an icon show
+immediately, no reveal step.
