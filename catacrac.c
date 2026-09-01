@@ -1,9 +1,28 @@
 #include <furi.h>
 #include <gui/gui.h>
 #include <input/input.h>
+#include <notification/notification_messages.h>
 #include "assets_icons.h"
 
 extern const uint8_t u8g2_font_helvB18_tr[];
+
+static const NotificationSequence catacrac_sequence_tick = {
+    &message_note_c6,
+    &message_delay_50,
+    &message_sound_off,
+    NULL,
+};
+
+static const NotificationSequence catacrac_sequence_reveal = {
+    &message_note_c6,
+    &message_delay_50,
+    &message_note_e6,
+    &message_delay_50,
+    &message_note_g6,
+    &message_delay_100,
+    &message_sound_off,
+    NULL,
+};
 
 typedef struct {
     const char* word;
@@ -102,6 +121,8 @@ int32_t catacrac_app(void* p) {
     Gui* gui = furi_record_open(RECORD_GUI);
     gui_add_view_port(gui, view_port, GuiLayerFullscreen);
 
+    NotificationApp* notification = furi_record_open(RECORD_NOTIFICATION);
+
     FuriTimer* anim_timer = furi_timer_alloc(
         catacrac_anim_timer_callback, FuriTimerTypePeriodic, &state);
     furi_timer_start(anim_timer, furi_ms_to_ticks(CATACRAC_ANIM_PERIOD_MS));
@@ -116,6 +137,7 @@ int32_t catacrac_app(void* p) {
                     state.word_index = (state.word_index + 1) % CATACRAC_WORD_COUNT;
                     state.anim_frame = 0;
                     state.word_revealed = false;
+                    notification_message(notification, &catacrac_sequence_tick);
                     view_port_update(view_port);
                     break;
                 case InputKeyLeft:
@@ -123,13 +145,16 @@ int32_t catacrac_app(void* p) {
                         (state.word_index + CATACRAC_WORD_COUNT - 1) % CATACRAC_WORD_COUNT;
                     state.anim_frame = 0;
                     state.word_revealed = false;
+                    notification_message(notification, &catacrac_sequence_tick);
                     view_port_update(view_port);
                     break;
                 case InputKeyOk:
                     if(catacrac_words[state.word_index].icon && !state.word_revealed) {
                         state.word_revealed = true;
+                        notification_message(notification, &catacrac_sequence_reveal);
                     } else {
                         state.anim_frame = 0;
+                        notification_message(notification, &catacrac_sequence_tick);
                     }
                     view_port_update(view_port);
                     break;
@@ -145,6 +170,7 @@ int32_t catacrac_app(void* p) {
 
     furi_timer_stop(anim_timer);
     furi_timer_free(anim_timer);
+    furi_record_close(RECORD_NOTIFICATION);
     gui_remove_view_port(gui, view_port);
     furi_record_close(RECORD_GUI);
     view_port_free(view_port);

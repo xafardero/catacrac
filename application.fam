@@ -3,7 +3,7 @@ App(
     name="Catacrac",
     apptype=FlipperAppType.EXTERNAL,
     entry_point="catacrac_app",
-    requires=["gui"],
+    requires=["gui", "notification"],
     stack_size=2 * 1024,
     fap_category="Games",
     fap_icon="catacrac_10px.png",
