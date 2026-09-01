@@ -17,8 +17,27 @@ lightweight Flipper build tool (no full firmware checkout needed).
 ```
 pip install ufbt
 ufbt          # build the .fap
-ufbt launch   # build, deploy and launch on a connected Flipper over USB
+ufbt launch   # build, install and launch on a connected Flipper over USB
 ```
+
+## Install permanently on the Flipper
+
+`ufbt launch` doesn't just run the app temporarily — it copies the build
+to the device's SD card at `/ext/apps/Games/catacrac.fap`. That's a
+normal permanent install: it survives unplugging and reboots, and shows
+up under the Flipper's own **Main Menu → Apps → Games → Catacrac**, so
+Jack can open it directly from the device without a computer.
+
+To push a fresh build after making changes:
+
+```
+ufbt launch   # rebuilds, re-installs over the old copy, and starts it
+```
+
+If the app is already running on the device when you do this, closing it
+remotely can fail with "Application ... has to be closed manually" — in
+Play mode this needs a **long press** of Back (see above); from the menu
+a normal Back works. Once it's closed, just run `ufbt launch` again.
 
 ## Status
 
