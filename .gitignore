@@ -2,3 +2,4 @@
 dist/
 .vscode/
 *.elf
+__pycache__/

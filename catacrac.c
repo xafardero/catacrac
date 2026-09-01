@@ -12,17 +12,17 @@ typedef struct {
 
 static const CatacracWord catacrac_words[] = {
     {"GAT", &A_cat},
-    {"GOS", NULL},
-    {"OCELL", NULL},
-    {"PEIX", NULL},
-    {"CAVALL", NULL},
-    {"VACA", NULL},
-    {"PORC", NULL},
-    {"OVELLA", NULL},
-    {"CONILL", NULL},
-    {"GRANOTA", NULL},
-    {"GIRAFA", NULL},
-    {"GALLINA", NULL},
+    {"GOS", &A_dog},
+    {"OCELL", &A_bird},
+    {"PEIX", &A_fish},
+    {"CAVALL", &A_horse},
+    {"VACA", &A_cow},
+    {"PORC", &A_pig},
+    {"OVELLA", &A_sheep},
+    {"CONILL", &A_rabbit},
+    {"GRANOTA", &A_frog},
+    {"GIRAFA", &A_giraffe},
+    {"GALLINA", &A_hen},
 };
 
 #define CATACRAC_WORD_COUNT (sizeof(catacrac_words) / sizeof(catacrac_words[0]))
