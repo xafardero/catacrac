@@ -26,8 +26,10 @@ M1 (build environment + word cycling), M2 (curated word list, 12 animals,
 uppercase with a large embedded font), M3 (bitmap animations for every
 word), and M4 (sound feedback) are done and confirmed on a real device.
 Word list is hardcoded in `catacrac.c`, plain ASCII only so far — Catalan
-diacritics (ratolí, lleó, ànec) aren't in the list yet since font
-rendering for them hasn't been verified on hardware.
+diacritics (ratolí, lleó, ànec) aren't in the word list yet. Confirmed on
+device that Flipper's stock `FontSecondary` doesn't render accents
+("Què és?" shows without its accent marks); the vendored
+`u8g2_font_helvB18_tr` word font hasn't been tested with accents yet.
 
 Word navigation plays a short tick and revealing a word plays a rising
 three-note chime, both via Flipper's `NotificationApp` service (async,
@@ -45,9 +47,10 @@ BY-SA 4.0, credited on the Credits screen) instead of hand-drawn shapes —
 the earlier procedural art was hard to recognize. Regenerate with
 `.venv/bin/python tools/fetch_openmoji_frames.py` (needs `cairosvg` and
 network access). Compiled through Flipper's standard `fap_icon_assets`
-pipeline, not hand-rolled.
+pipeline, not hand-rolled. Icons render near-fullscreen (128x44) instead
+of a small corner box, with the word/hint in plain black text below.
 
-For any word with an animation, the word text stays hidden (an "OK?" hint
+For any word with an animation, the word text stays hidden ("Què és?"
 shows instead) until OK is pressed — a small guess-first flashcard flow.
 Pressing OK again just restarts the animation.
 
