@@ -111,29 +111,34 @@ static void catacrac_draw_credits(Canvas* canvas) {
     canvas_draw_str_aligned(canvas, 64, 56, AlignCenter, AlignTop, "Back per tornar");
 }
 
+#define CATACRAC_BANNER_Y 44
+#define CATACRAC_BANNER_HEIGHT 20
+
 static void catacrac_draw_play(Canvas* canvas, CatacracState* state) {
     const CatacracWord* word = &catacrac_words[state->word_index];
-
-    uint8_t word_y = 30;
     bool show_word = state->word_revealed || !word->icon;
+
     if(word->icon) {
         uint32_t frame = state->anim_frame % icon_get_frame_count(word->icon);
         canvas_draw_bitmap(
             canvas,
             (128 - icon_get_width(word->icon)) / 2,
-            2,
+            0,
             icon_get_width(word->icon),
             icon_get_height(word->icon),
             icon_get_frame_data(word->icon, frame));
-        word_y = 54;
-    }
 
-    if(show_word) {
-        canvas_set_custom_u8g2_font(canvas, u8g2_font_helvB18_tr);
-        canvas_draw_str_aligned(canvas, 64, word_y, AlignCenter, AlignCenter, word->word);
+        uint8_t label_y = CATACRAC_BANNER_Y + CATACRAC_BANNER_HEIGHT / 2;
+        if(show_word) {
+            canvas_set_custom_u8g2_font(canvas, u8g2_font_helvB18_tr);
+            canvas_draw_str_aligned(canvas, 64, label_y, AlignCenter, AlignCenter, word->word);
+        } else {
+            canvas_set_font(canvas, FontSecondary);
+            canvas_draw_str_aligned(canvas, 64, label_y, AlignCenter, AlignCenter, "Què és?");
+        }
     } else {
-        canvas_set_font(canvas, FontSecondary);
-        canvas_draw_str_aligned(canvas, 64, word_y, AlignCenter, AlignCenter, "OK?");
+        canvas_set_custom_u8g2_font(canvas, u8g2_font_helvB18_tr);
+        canvas_draw_str_aligned(canvas, 64, 32, AlignCenter, AlignCenter, word->word);
     }
 
     char counter[16];

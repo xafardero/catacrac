@@ -3,8 +3,10 @@ import os
 import cairosvg
 from PIL import Image
 
-SIZE = 40
-ICON_SIZE = 34
+CANVAS_W = 128
+CANVAS_H = 44
+ICON_SIZE = 50
+ICON_Y_OFFSET = -2
 BOUNCE_OFFSET = 2
 THRESHOLD = 140
 IMAGES_DIR = "images"
@@ -41,9 +43,9 @@ def render_icon(codepoint: str) -> Image.Image:
 
 
 def frame(icon: Image.Image, y_offset: int) -> Image.Image:
-    canvas = Image.new("L", (SIZE, SIZE), color=255)
-    x = (SIZE - ICON_SIZE) // 2
-    y = (SIZE - ICON_SIZE) // 2 + y_offset
+    canvas = Image.new("L", (CANVAS_W, CANVAS_H), color=255)
+    x = (CANVAS_W - ICON_SIZE) // 2
+    y = ICON_Y_OFFSET + y_offset
     canvas.paste(icon, (x, y))
     return canvas.convert("1")
 
