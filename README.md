@@ -1,7 +1,10 @@
 # Catacrac
 
-Flipper Zero app to help Jack learn Catalan vocabulary. D-pad left/right cycles
-through words; OK repeats the current word; Back exits.
+Flipper Zero app to help Jack learn Catalan vocabulary. Opens on a menu
+(Play / Sound / Credits). In Play, D-pad left/right cycles through words
+and OK reveals/repeats. Back exits from the menu, but requires a **long
+press** to leave Play mode — a stray tap won't accidentally kick a kid
+out mid-session.
 
 Full idea and roadmap: see the Notion project page linked from this repo's
 owner workspace ("Flipper Zero word-learning app for Jack").
@@ -46,3 +49,8 @@ and giraffe — flagged to revisit and redraw.
 For any word with an animation, the word text stays hidden (an "OK?" hint
 shows instead) until OK is pressed — a small guess-first flashcard flow.
 Pressing OK again just restarts the animation.
+
+The app opens on a menu screen (Play / Sound: ON-OFF / Credits) instead
+of jumping straight into Play. Sound can be muted from there. Play mode
+ignores a short Back press — only a long press returns to the menu — so
+the app can't be exited by an accidental tap.
