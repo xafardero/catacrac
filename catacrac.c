@@ -102,11 +102,13 @@ static void catacrac_draw_menu(Canvas* canvas, CatacracState* state) {
 
 static void catacrac_draw_credits(Canvas* canvas) {
     canvas_set_font(canvas, FontPrimary);
-    canvas_draw_str_aligned(canvas, 64, 12, AlignCenter, AlignCenter, "CATACRAC");
+    canvas_draw_str_aligned(canvas, 64, 5, AlignCenter, AlignTop, "CATACRAC");
     canvas_set_font(canvas, FontSecondary);
-    canvas_draw_str_aligned(canvas, 64, 28, AlignCenter, AlignCenter, "Vocabulari en catala");
-    canvas_draw_str_aligned(canvas, 64, 40, AlignCenter, AlignCenter, "Fet per en Jack");
-    canvas_draw_str_aligned(canvas, 64, 56, AlignCenter, AlignCenter, "Back per tornar");
+    canvas_draw_str_aligned(canvas, 64, 18, AlignCenter, AlignTop, "Vocabulari en catala");
+    canvas_draw_str_aligned(canvas, 64, 27, AlignCenter, AlignTop, "Fet per en Jack");
+    canvas_draw_str_aligned(canvas, 64, 37, AlignCenter, AlignTop, "Icones: OpenMoji");
+    canvas_draw_str_aligned(canvas, 64, 46, AlignCenter, AlignTop, "(CC BY-SA 4.0)");
+    canvas_draw_str_aligned(canvas, 64, 56, AlignCenter, AlignTop, "Back per tornar");
 }
 
 static void catacrac_draw_play(Canvas* canvas, CatacracState* state) {
