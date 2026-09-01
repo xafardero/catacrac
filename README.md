@@ -19,12 +19,17 @@ ufbt launch   # build, deploy and launch on a connected Flipper over USB
 
 ## Status
 
-M1 (build environment + word cycling), M2 (first curated word list, 12
-animals, shown in uppercase with a large embedded font), and M3 (first
-bitmap animation) are done and confirmed on a real device. Word list is
-hardcoded in `catacrac.c`, plain ASCII only so far — Catalan diacritics
-(ratolí, lleó, ànec) aren't in the list yet since font rendering for them
-hasn't been verified on hardware. Sound is not implemented yet.
+M1 (build environment + word cycling), M2 (curated word list, 12 animals,
+uppercase with a large embedded font), M3 (bitmap animations for every
+word), and M4 (sound feedback) are done and confirmed on a real device.
+Word list is hardcoded in `catacrac.c`, plain ASCII only so far — Catalan
+diacritics (ratolí, lleó, ànec) aren't in the list yet since font
+rendering for them hasn't been verified on hardware.
+
+Word navigation plays a short tick and revealing a word plays a rising
+three-note chime, both via Flipper's `NotificationApp` service (async,
+doesn't block the input loop) — no external audio hardware needed, since
+the goal here is reinforcement tones, not real pronunciation.
 
 Words render with `u8g2_font_helvB18_tr`, a bold 18px font vendored from
 [u8g2](https://github.com/olikraus/u8g2) in `u8g2_font_helvb18_tr.c` and
